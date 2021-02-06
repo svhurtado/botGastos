@@ -42,7 +42,23 @@ def on_command_about(message):
                      logic.get_about_this(config.VERSION),
                      parse_mode="Markdown")
 
-#Ingreso
+#Listar las cuentas de usuarios
+@bot.message_handler(regexp=r"^(listar cuentas|lc)$")
+def on_list_accounts(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    text = ""
+    if logic.check_admin(message.from_user.id):
+        accounts = logic.list_accounts()
+        text = " Listado de cuentas:\n\n"
+        for account in accounts:
+            text += f"| {account.id} | ${account.balance} |\n"
+            text += ""
+    else:
+        text = f"\U0000274C Esta funcionalidad sólo está disponible para administradores"
+
+    bot.reply_to(message, text, parse_mode="Markdown")
+
+#Registrar un Ingreso
 @bot.message_handler(regexp=r"^(gane|gané|g) ([+-]?([0-9]*[.])?[0-9]+)$")
 def on_earn_money(message):
     bot.send_chat_action(message.chat.id, 'typing')
@@ -58,7 +74,7 @@ def on_earn_money(message):
                  else "\U0001F4A9 Tuve problemas registrando la transacción," 
                  " ejecuta /start y vuelve a intentarlo")
 
-#Gasto
+#Registrar un Gasto
 @bot.message_handler(regexp=r"^(gaste|gasté|gg) ([+-]?([0-9]*[.])?[0-9]+)$")
 def on_spend_money(message):
     bot.send_chat_action(message.chat.id, 'typing')

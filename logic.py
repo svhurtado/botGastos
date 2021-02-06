@@ -139,3 +139,14 @@ def validate_date(month, year):
         return f"Error, año inválido: {year}"
     
     return None
+
+#Validar si es administrador
+def check_admin(user_id):
+    #Lista de los id de los administradores. Es solo para el ejemplo, es mejor tener una tabla y consultar
+    admins = [25614570]
+    return user_id in admins
+
+#Consultar las cuentas
+def list_accounts():
+    accounts = db.session.query(Account).all()
+    return accounts
