@@ -1,7 +1,14 @@
 from config import bot
 from time import sleep
-import logic
 import re
+import logic
+import database.db as db
+
+#Creación de las tablas
+if __name__ == '__main__':
+    db.Base.metadata.create_all(db.engine)
+#########################################################
+
 
 #Respuesta al comando /start,
 @bot.message_handler(commands=['start'])   
@@ -13,6 +20,40 @@ def on_command_start(message):
 def on_command_help(message):
     pass
 
+#About
+@bot.message_handler(commands=['about'])
+def on_command_about(message):
+    pass
+
+#Ingreso
+@bot.message_handler(regexp=r"^(gane|gané|g) ([+-]?([0-9]*[.])?[0-9]+)$")
+def on_earn_money(message):
+    pass
+
+#Gasto
+@bot.message_handler(regexp=r"^(gaste|gasté|gg) ([+-]?([0-9]*[.])?[0-9]+)$")
+def on_spend_money(message):
+    pass
+
+#Lista ingresos
+@bot.message_handler(regexp=r"^(listar ganancias|lg) en ([0-9]{1,2}) de ([0-9]{4})$")
+def on_list_earnings(message):
+    pass
+
+#Lista gastos
+@bot.message_handler(regexp=r"^(listar gastos|lgg) en ([0-9]{1,2}) de ([0-9]{4})$")
+def on_list_spendings(message):
+    pass
+
+#Saldo
+@bot.message_handler(regexp=r"^(obtener saldo|s)$")
+def on_get_balance(message):
+    pass
+
+#Remover
+@bot.message_handler(regexp=r"^(remover|r) (ganancia|g|gasto|gg) ([0-9]+)$")
+def on_remove_record(message):
+    pass
 
 #Fallback
 @bot.message_handler(func=lambda message: True)  
