@@ -18,5 +18,6 @@ class Account(db.Base):
         self.id = id
         self.balance = balance
     
+    #Es como el "toString"
     def __repr__(self):
         return f"<Account {self.id}>"
