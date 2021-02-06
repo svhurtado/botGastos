@@ -106,3 +106,29 @@ def spend_money(user_id, amount):
     db.session.add(spend)
     db.session.commit()
     return True
+
+#Obtener la lista de ingresos
+def list_earnings (user_id, month, year):
+    earningsUsuario = db.session.query(Earning).filter_by(accounts_id=user_id)
+    earnings = earningsUsuario.filter(extract('month', Earning.when) == month
+                                      ).filter(extract('year', Earning.when) == year).all()
+    db.session.commit()
+    return earnings
+
+#Obtener la lista de gastos
+def list_spendings (user_id, month, year):
+    spendingsUsuario = db.session.query(Spending).filter_by(accounts_id=user_id)
+    spendings = spendingsUsuario.filter(extract('month', Spending.when) == month
+                                      ).filter(extract('year', Spending.when) == year).all()
+    db.session.commit()
+    return spendings
+
+#Validar mes y año
+def validate_date(month, year):
+    if month < 1 or month > 12:
+        return f"Error, mes inválido: {month}"
+
+    if year < 1990 or year > 2050:
+        return f"Error, año inválido: {year}"
+    
+    return None
