@@ -86,6 +86,7 @@ def on_list_earnings(message):
     month = int(parts[2])
     year = int(parts[3])
     
+    # Esta forma de validar es un ensayo, para sacar la validación aparte
     mensaje_error = logic.validate_date(month,year)
     if mensaje_error != None:
         bot.reply_to(message, mensaje_error)

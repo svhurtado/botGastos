@@ -110,6 +110,7 @@ def spend_money(user_id, amount):
 #Obtener la lista de ingresos
 def list_earnings (user_id, month, year):
     earningsUsuario = db.session.query(Earning).filter_by(accounts_id=user_id)
+    #Earning.when es el campo de la fecha, al cual se le saca el mes para compararlo y filtrar
     earnings = earningsUsuario.filter(extract('month', Earning.when) == month
                                       ).filter(extract('year', Earning.when) == year).all()
     db.session.commit()
@@ -117,9 +118,15 @@ def list_earnings (user_id, month, year):
 
 #Obtener la lista de gastos
 def list_spendings (user_id, month, year):
-    spendingsUsuario = db.session.query(Spending).filter_by(accounts_id=user_id)
-    spendings = spendingsUsuario.filter(extract('month', Spending.when) == month
-                                      ).filter(extract('year', Spending.when) == year).all()
+    spendings = db.session.query(Spending
+            ).filter_by(
+                accounts_id=user_id
+            ).filter(
+                extract('month', Spending.when) == month
+            ).filter(
+                extract('year', Spending.when) == year
+            ).all()
+            
     db.session.commit()
     return spendings
 
