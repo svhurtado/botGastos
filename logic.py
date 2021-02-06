@@ -63,6 +63,18 @@ def get_balance (user_id):
     
     return account.balance
 
+#Actualizar el saldo en la cuenta
+def update_account (user_id, amount):
+    account = db.session.query(Account).get(user_id)
+    db.session.commit()
+
+    if not account:
+        return False
+
+    account.balance = account.balance + amount
+    db.session.commit()
+    return True
+
 #Registrar un ingreso
 def earn_money (user_id, amount):
     if amount <= 0:
@@ -79,14 +91,18 @@ def earn_money (user_id, amount):
     db.session.commit()
     return True
 
-#Actualizar el saldo en la cuenta
-def update_account (user_id, amount):
-    account = db.session.query(Account).get(user_id)
-    db.session.commit()
-
-    if not account:
+#Registar un gasto
+def spend_money(user_id, amount):
+    if amount <= 0:
         return False
 
-    account.balance = account.balance + amount
+    control = update_account(user_id, amount * -1)
+    if not control:
+        return False
+
+    spend = Spending(amount,
+                     datetime.now(),
+                     user_id)
+    db.session.add(spend)
     db.session.commit()
     return True
